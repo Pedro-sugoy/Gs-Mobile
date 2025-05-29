@@ -4,10 +4,14 @@
 
 *Git Bash Here:
 
+![Capture](https://github.com/user-attachments/assets/68561a52-43a3-43e7-abd9-aa32be137e3e)
+
+
 *Visual Studio Code: 
 
 =2- Após clonar o projeto, abra o cmd e entre na pasta do projeto e baixe as dependencias dele usando o comando "npm install"
 
+![install](https://github.com/user-attachments/assets/baa8ced6-c076-4f55-a37a-75a00d435fae)
 
 
 =3- Agora inicie o projeto usando o comando "npm start"
