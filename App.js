@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import 'react-native-gesture-handler';
@@ -13,6 +11,7 @@ import TelaDevs from './screens/TelaDev';
 import TelaInform from './screens/TelaInform';
 import TelaLogin from './screens/TelaLogin';
 import TelaCadas from './screens/TelaCadas';
+import TelaDesliza from './screens/TelaDesliza';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -33,6 +32,7 @@ function DrawerRoutes() {
       <Drawer.Screen name="Desenvolvedores" component={TelaDevs} />
       <Drawer.Screen name="Informação" component={TelaInform} />
       <Drawer.Screen name="Login" component={TelaLogin} />
+      <Drawer.Screen name="Calculo de deslizamento" component={TelaDesliza} />
     </Drawer.Navigator>
   );
 }

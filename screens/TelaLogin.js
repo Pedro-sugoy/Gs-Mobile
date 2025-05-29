@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
 
-export default function TelaLogin({navigation}) {
+export default function TelaLogin({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
@@ -14,16 +14,52 @@ export default function TelaLogin({navigation}) {
     Alert.alert('Login', `Email: ${email}\nSenha: ${senha}`);
   };
 
+  const handleAtualizar = () => {
+    Alert.alert('Atualizar', 'Função de atualização acionada.');
+  };
+
+  const handleDeletar = () => {
+    if (!email || !senha) {
+      Alert.alert('Erro', 'Preencha o usuário antes de deletar.');
+      return;
+    }
+
+    Alert.alert(
+      'Confirmação',
+      'Certeza que quer deletar?',
+      [
+        { text: 'Não', style: 'cancel' },
+        {
+          text: 'Sim',
+          onPress: () => {
+            // Aqui entra a lógica de deleção real
+            Alert.alert('Deletado', 'Usuário deletado com sucesso.');
+          },
+          style: 'destructive'
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
-      <View style={styles.logoContainer}>
+      <View style={styles.topBar}>
         <Image
           source={require('../assets/Logo.png')}
           style={styles.logo}
           resizeMode="contain"
         />
+        <View style={styles.topButtons}>
+          <TouchableOpacity style={styles.smallButton} onPress={handleAtualizar}>
+            <Text style={styles.smallButtonText}>Atualizar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.smallButton} onPress={handleDeletar}>
+            <Text style={styles.smallButtonText}>Deletar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <Text style={styles.title}>Login</Text>
@@ -53,7 +89,7 @@ export default function TelaLogin({navigation}) {
         </TouchableOpacity>
 
         <Text style={styles.cadastroText}>
-            Caso não tenha um cadastro:
+          Caso não tenha um cadastro:
         </Text>
 
         <TouchableOpacity onPress={() => navigation.navigate('TelaCadas')}>
@@ -72,15 +108,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     alignItems: 'center',
   },
-  logoContainer: {
-    alignItems: 'flex-start',
-    marginBottom: 40,
+  topBar: {
+    flexDirection: 'row',
     width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  topButtons: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  smallButton: {
+    backgroundColor: '#334155',
+    borderRadius: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  smallButtonText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: 'bold',
   },
   logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 45,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
   title: {
     fontSize: 32,
