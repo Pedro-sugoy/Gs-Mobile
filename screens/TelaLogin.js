@@ -14,10 +14,6 @@ export default function TelaLogin({ navigation }) {
     Alert.alert('Login', `Email: ${email}\nSenha: ${senha}`);
   };
 
-  const handleAtualizar = () => {
-    Alert.alert('Atualizar', 'Função de atualização acionada.');
-  };
-
   const handleDeletar = () => {
     if (!email || !senha) {
       Alert.alert('Erro', 'Preencha o usuário antes de deletar.');
@@ -32,7 +28,6 @@ export default function TelaLogin({ navigation }) {
         {
           text: 'Sim',
           onPress: () => {
-            // Aqui entra a lógica de deleção real
             Alert.alert('Deletado', 'Usuário deletado com sucesso.');
           },
           style: 'destructive'
@@ -53,9 +48,6 @@ export default function TelaLogin({ navigation }) {
           resizeMode="contain"
         />
         <View style={styles.topButtons}>
-          <TouchableOpacity style={styles.smallButton} onPress={handleAtualizar}>
-            <Text style={styles.smallButtonText}>Atualizar</Text>
-          </TouchableOpacity>
           <TouchableOpacity style={styles.smallButton} onPress={handleDeletar}>
             <Text style={styles.smallButtonText}>Deletar</Text>
           </TouchableOpacity>
@@ -89,11 +81,11 @@ export default function TelaLogin({ navigation }) {
         </TouchableOpacity>
 
         <Text style={styles.cadastroText}>
-          Caso não tenha um cadastro:
+          Caso não tenha um cadastro ou queira atualiza-lo:
         </Text>
 
         <TouchableOpacity onPress={() => navigation.navigate('TelaCadas')}>
-          <Text style={styles.linkText}>Clique aqui para se cadastrar</Text>
+          <Text style={styles.linkText}>Cadastro / Atualizar</Text>
         </TouchableOpacity>
       </View>
     </View>

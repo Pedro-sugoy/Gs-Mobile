@@ -46,12 +46,27 @@ export default function TelaCadas() {
     }
   };
 
+  const handleAtualizar = () => {
+    Alert.alert('Atualizar', 'Função de atualização acionada.');
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.logoContainer}>
         <Image source={require('../assets/Logo.png')} style={styles.logo} resizeMode="contain" />
       </View>
+
+      <View style={styles.topButtons}>
+        <TouchableOpacity style={styles.smallButton} onPress={handleAtualizar}>
+          <Text style={styles.smallButtonText}>Atualizar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.smallButton, styles.cadastrarButton]} onPress={handleCadastro}>
+          <Text style={styles.smallButtonText}>Cadastrar</Text>
+        </TouchableOpacity>
+      </View>
+
       <Text style={styles.title}>Cadastro</Text>
       <View style={styles.card}>
         <Text style={styles.label}>Nome</Text>
@@ -66,9 +81,6 @@ export default function TelaCadas() {
         <TextInput style={styles.input} value={bairro} onChangeText={setBairro} />
         <Text style={styles.label}>Cidade</Text>
         <TextInput style={styles.input} value={cidade} onChangeText={setCidade} />
-        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
-          <Text style={styles.buttonText}>Cadastrar</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -84,7 +96,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'flex-start',
-    marginBottom: 40,
+    marginBottom: 20,
     width: '100%',
   },
   logo: {
@@ -93,12 +105,34 @@ const styles = StyleSheet.create({
     borderRadius: 45,
     marginBottom: 10,
   },
+  topButtons: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+    gap: 10,
+    marginBottom: 10,
+  },
+  smallButton: {
+    backgroundColor: '#334155',
+    borderRadius: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  cadastrarButton: {
+    backgroundColor: '#1e40af', 
+  },
+  smallButtonText: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
   title: {
     fontSize: 32,
     fontWeight: '700',
     color: '#1e293b',
     marginBottom: 20,
     textAlign: 'center',
+    width: '100%',
   },
   card: {
     backgroundColor: '#fff',
@@ -122,17 +156,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     fontSize: 16,
     color: '#1e293b',
-  },
-  button: {
-    backgroundColor: '#1e40af',
-    borderRadius: 8,
-    marginTop: 20,
-    paddingVertical: 12,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold',
   },
 });
