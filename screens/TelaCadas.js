@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, StatusBar, Image, Alert, ScrollView } from 'react-native';
+import {
+  View, Text, TextInput, StyleSheet, TouchableOpacity,
+  StatusBar, Image, Alert, ScrollView
+} from 'react-native';
 
 export default function TelaCadas() {
+  const [id, setId] = useState(null);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -27,7 +31,7 @@ export default function TelaCadas() {
     };
 
     try {
-      const response = await fetch('http://<IP_DO_BACKEND>:8080/usuarios', {
+      const response = await fetch('http://10.0.2.101:8080/usuarios', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -36,18 +40,60 @@ export default function TelaCadas() {
       });
 
       if (!response.ok) {
-        Alert.alert('Erro', 'Erro ao cadastrar');
+        const erro = await response.text();
+        Alert.alert('Erro', `Erro ao cadastrar: ${erro}`);
         return;
       }
 
+      const json = await response.json();
+      setId(json.id); 
       Alert.alert('Sucesso', 'Cadastro realizado com sucesso!');
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível conectar ao servidor');
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor. Verifique o backend.');
     }
   };
 
-  const handleAtualizar = () => {
-    Alert.alert('Atualizar', 'Função de atualização acionada.');
+  const handleAtualizar = async () => {
+    if (!nome || !email || !senha || !telefone || !bairro || !cidade) {
+      Alert.alert('Erro', 'Preencha todos os campos para atualizar');
+      return;
+    }
+
+    if (!id) {
+      Alert.alert('Erro', 'ID do usuário não definido');
+      return;
+    }
+
+    const usuario = {
+      nome,
+      email,
+      senha,
+      telefone,
+      endereco: {
+        bairro,
+        cidade
+      }
+    };
+
+    try {
+      const response = await fetch(`http://10.0.2.101:8080/usuarios/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(usuario)
+      });
+
+      if (!response.ok) {
+        const erro = await response.text();
+        Alert.alert('Erro', `Erro ao atualizar: ${erro}`);
+        return;
+      }
+
+      Alert.alert('Sucesso', 'Dados atualizados com sucesso!');
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível conectar ao servidor. Verifique o backend.');
+    }
   };
 
   return (
@@ -71,14 +117,35 @@ export default function TelaCadas() {
       <View style={styles.card}>
         <Text style={styles.label}>Nome</Text>
         <TextInput style={styles.input} value={nome} onChangeText={setNome} />
+
         <Text style={styles.label}>E-mail</Text>
-        <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+
         <Text style={styles.label}>Senha</Text>
-        <TextInput style={styles.input} value={senha} onChangeText={setSenha} secureTextEntry />
+        <TextInput
+          style={styles.input}
+          value={senha}
+          onChangeText={setSenha}
+          secureTextEntry
+        />
+
         <Text style={styles.label}>Telefone</Text>
-        <TextInput style={styles.input} value={telefone} onChangeText={setTelefone} keyboardType="phone-pad" />
+        <TextInput
+          style={styles.input}
+          value={telefone}
+          onChangeText={setTelefone}
+          keyboardType="phone-pad"
+        />
+
         <Text style={styles.label}>Bairro</Text>
         <TextInput style={styles.input} value={bairro} onChangeText={setBairro} />
+
         <Text style={styles.label}>Cidade</Text>
         <TextInput style={styles.input} value={cidade} onChangeText={setCidade} />
       </View>
@@ -119,7 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   cadastrarButton: {
-    backgroundColor: '#1e40af', 
+    backgroundColor: '#1e40af',
   },
   smallButtonText: {
     color: '#fff',

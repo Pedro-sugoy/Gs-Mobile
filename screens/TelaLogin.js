@@ -1,36 +1,106 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, StatusBar, Image, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, StatusBar, Image, Alert, ScrollView } from 'react-native';
 
 export default function TelaLogin({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [loadingUserData, setLoadingUserData] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !senha) {
       Alert.alert('Erro', 'Preencha todos os campos');
       return;
     }
 
-    Alert.alert('Login', `Email: ${email}\nSenha: ${senha}`);
+    try {
+      const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (!response.ok) {
+        Alert.alert('Erro', 'Usuário ou senha inválidos');
+        return;
+      }
+
+      const data = await response.json();
+      setToken(data.token);
+      setUserId(data.id);
+
+      await fetchUserData(data.id, data.token);
+    } catch (error) {
+      Alert.alert('Erro', 'Erro de conexão com o servidor');
+    }
+  };
+
+  const fetchUserData = async (id, jwtToken) => {
+    setLoadingUserData(true);
+    try {
+      const response = await fetch(`http://localhost:8080/usuarios/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        Alert.alert('Erro', 'Não foi possível obter os dados do usuário');
+        setLoadingUserData(false);
+        return;
+      }
+
+      const user = await response.json();
+      setUserData(user);
+    } catch (error) {
+      Alert.alert('Erro', 'Erro ao buscar dados do usuário');
+    }
+    setLoadingUserData(false);
+  };
+
+  const handleLogout = () => {
+    setToken(null);
+    setUserId(null);
+    setUserData(null);
+    setEmail('');
+    setSenha('');
   };
 
   const handleDeletar = () => {
-    if (!email || !senha) {
-      Alert.alert('Erro', 'Preencha o usuário antes de deletar.');
+    if (!userId || !token) {
+      Alert.alert('Erro', 'Você precisa estar logado para deletar o usuário.');
       return;
     }
 
     Alert.alert(
       'Confirmação',
-      'Certeza que quer deletar?',
+      'Certeza que quer deletar seu usuário?',
       [
         { text: 'Não', style: 'cancel' },
         {
           text: 'Sim',
-          onPress: () => {
-            Alert.alert('Deletado', 'Usuário deletado com sucesso.');
+          onPress: async () => {
+            try {
+              const response = await fetch(`http://localhost:8080/usuarios/${userId}`, {
+                method: 'DELETE',
+                headers: { Authorization: `Bearer ${token}` },
+              });
+
+              if (!response.ok) {
+                Alert.alert('Erro', 'Não foi possível deletar o usuário.');
+                return;
+              }
+
+              Alert.alert('Deletado', 'Usuário deletado com sucesso.');
+              handleLogout();
+            } catch (error) {
+              Alert.alert('Erro', 'Erro ao se conectar com o servidor.');
+            }
           },
-          style: 'destructive'
+          style: 'destructive',
         },
       ],
       { cancelable: false }
@@ -38,67 +108,83 @@ export default function TelaLogin({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
 
       <View style={styles.topBar}>
-        <Image
-          source={require('../assets/Logo.png')}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <View style={styles.topButtons}>
-          <TouchableOpacity style={styles.smallButton} onPress={handleDeletar}>
-            <Text style={styles.smallButtonText}>Deletar</Text>
-          </TouchableOpacity>
+        <Image source={require('../assets/Logo.png')} style={styles.logo} resizeMode="contain" />
+        {token && (
+          <View style={styles.topButtons}>
+            <TouchableOpacity style={styles.smallButton} onPress={handleDeletar}>
+              <Text style={styles.smallButtonText}>Deletar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.smallButton, { backgroundColor: '#a00' }]} onPress={handleLogout}>
+              <Text style={styles.smallButtonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+
+      {!token && (
+        <>
+          <Text style={styles.title}>Login</Text>
+
+          <View style={styles.card}>
+            <Text style={styles.label}>E-mail</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite seu e-mail"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+
+            <Text style={styles.label}>Senha</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Digite sua senha"
+              value={senha}
+              onChangeText={setSenha}
+              secureTextEntry
+            />
+
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Entrar</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.cadastroText}>
+              Caso não tenha um cadastro ou queira atualizá-lo:
+            </Text>
+
+            <TouchableOpacity onPress={() => navigation.navigate('TelaCadas')}>
+              <Text style={styles.linkText}>Cadastro / Atualizar</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
+
+      {token && userData && (
+        <View style={styles.card}>
+          <Text style={styles.title}>Informações do Usuário</Text>
+          <Text style={styles.infoText}>Nome: {userData.nome}</Text>
+          <Text style={styles.infoText}>E-mail: {userData.email}</Text>
+
+          {loadingUserData && <Text>Carregando dados...</Text>}
         </View>
-      </View>
-
-      <Text style={styles.title}>Login</Text>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>E-mail</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Digite seu e-mail"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-
-        <Text style={styles.label}>Senha</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Digite sua senha"
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry
-        />
-
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.cadastroText}>
-          Caso não tenha um cadastro ou queira atualiza-lo:
-        </Text>
-
-        <TouchableOpacity onPress={() => navigation.navigate('TelaCadas')}>
-          <Text style={styles.linkText}>Cadastro / Atualizar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      )}
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#dddbd9',
     paddingTop: 20,
     paddingHorizontal: 30,
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   topBar: {
     flexDirection: 'row',
@@ -116,6 +202,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     paddingVertical: 6,
     paddingHorizontal: 10,
+    marginLeft: 8,
   },
   smallButtonText: {
     color: '#fff',
@@ -141,6 +228,7 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 320,
     elevation: 4,
+    marginBottom: 20,
   },
   label: {
     fontSize: 16,
@@ -181,5 +269,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textDecorationLine: 'underline',
     textAlign: 'center',
+  },
+  infoText: {
+    fontSize: 18,
+    marginBottom: 8,
+    color: '#1e293b',
   },
 });
