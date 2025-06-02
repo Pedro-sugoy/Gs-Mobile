@@ -16,7 +16,6 @@ export default function TelaDesliza({ usuarioId = 1, enderecoId = 1 }) {
     return !isNaN(num) && num >= min && num <= max;
   };
 
-  // Função que implementa a lógica do cálculo localmente igual ao Java
   const calcularAlertaLocal = (dados) => {
     let pontos = 0;
 
@@ -76,7 +75,6 @@ export default function TelaDesliza({ usuarioId = 1, enderecoId = 1 }) {
     setLoading(true);
     setResultado(null);
 
-    // Monta o objeto com os dados para cálculo
     const dados = {
       chuva: parseFloat(chuva),
       umidade: parseFloat(umidade),
@@ -88,16 +86,12 @@ export default function TelaDesliza({ usuarioId = 1, enderecoId = 1 }) {
       enderecoId,
     };
 
-    // Aqui você pode enviar para API se quiser, mas vamos calcular localmente
     const alerta = calcularAlertaLocal(dados);
 
-    // Simula salvar na API (remova ou adapte para sua API)
-    // await fetch(...)
 
     setLoading(false);
     setResultado(alerta.nivel);
 
-    // Mostra o alerta (notificação)
     Alert.alert(
       `Nível: ${alerta.nivel}`,
       `Descrição: ${alerta.descricao}\nProbabilidade: ${alerta.probabilidade}%`

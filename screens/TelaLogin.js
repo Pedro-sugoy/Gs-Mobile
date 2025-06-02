@@ -16,7 +16,7 @@ export default function TelaLogin({ navigation }) {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/auth/login', {
+      const response = await fetch('http://192.168.0.8:8080/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
@@ -40,7 +40,7 @@ export default function TelaLogin({ navigation }) {
   const fetchUserData = async (id, jwtToken) => {
     setLoadingUserData(true);
     try {
-      const response = await fetch(`http://localhost:8080/usuarios/${id}`, {
+      const response = await fetch(`http://192.168.0.8:8080/usuarios/${id}`, {
         headers: {
           'Authorization': `Bearer ${jwtToken}`,
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export default function TelaLogin({ navigation }) {
           text: 'Sim',
           onPress: async () => {
             try {
-              const response = await fetch(`http://localhost:8080/usuarios/${userId}`, {
+              const response = await fetch(`http://192.168.0.8:8080/usuarios/${userId}`, {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` },
               });
@@ -131,23 +131,10 @@ export default function TelaLogin({ navigation }) {
 
           <View style={styles.card}>
             <Text style={styles.label}>E-mail</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite seu e-mail"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
+            <TextInput style={styles.input} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
 
             <Text style={styles.label}>Senha</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite sua senha"
-              value={senha}
-              onChangeText={setSenha}
-              secureTextEntry
-            />
+            <TextInput style={styles.input} value={senha} onChangeText={setSenha} secureTextEntry />
 
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
               <Text style={styles.buttonText}>Entrar</Text>
@@ -169,7 +156,7 @@ export default function TelaLogin({ navigation }) {
           <Text style={styles.title}>Informações do Usuário</Text>
           <Text style={styles.infoText}>Nome: {userData.nome}</Text>
           <Text style={styles.infoText}>E-mail: {userData.email}</Text>
-
+          <Text style={styles.infoText}>Telefone: {userData.telefone}</Text>
           {loadingUserData && <Text>Carregando dados...</Text>}
         </View>
       )}
