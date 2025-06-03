@@ -16,6 +16,9 @@
 
 =3- Agora inicie o projeto usando o comando "npm start"
 
+![image](https://github.com/user-attachments/assets/629a30e3-5d2b-4ea3-a3fd-81f0093e8b7a)
 
 
 =4- Aperte 'a' no teclado para rodar o emulador do celular ou use o seu próprio celular para rodar o projeto usando o expoGo(tem que estar conectado na mesma rede que o computador)
+
+![Captura de tela 2025-05-12 150713](https://github.com/user-attachments/assets/363d8e3f-a113-43ed-9180-89b3d7921dde)
