@@ -132,7 +132,7 @@ export default function TelaCadas() {
 
   const telefoneFormatado = formatarTelefone(telefone);
   if (!telefoneFormatado) {
-    Alert.alert('Erro', 'Telefone inválido');
+    Alert.alert('Erro', 'Telefone inválido. Use o formato (11) 91234-5678');
     return;
   }
 
@@ -165,20 +165,22 @@ export default function TelaCadas() {
       return;
     }
 
-    const enderecoResponse = await fetch(`https://geoalertac.onrender.com/api/Endereco/${usuarioId}`);
-    if (!enderecoResponse.ok) {
-      Alert.alert('Erro', 'Endereço não encontrado para o usuário');
+    const enderecosResponse = await fetch("https://geoalertac.onrender.com/api/Endereco");
+    const enderecos = await enderecosResponse.json();
+    const enderecoUsuario = enderecos.find(e => e.usuarioId === usuarioId);
+
+    if (!enderecoUsuario) {
+      Alert.alert('Erro', 'Endereço do usuário não encontrado');
       return;
     }
 
-    const endereco = await enderecoResponse.json();
-    const enderecoId = endereco.id;
+    const enderecoId = enderecoUsuario.id;
 
     const enderecoAtualizado = {
       id: enderecoId,
       bairro,
       cidade,
-      usuarioId: usuarioId,
+      usuarioId,
     };
 
     const atualizarEndereco = await fetch(`https://geoalertac.onrender.com/api/Endereco/${enderecoId}`, {
@@ -188,7 +190,7 @@ export default function TelaCadas() {
     });
 
     if (!atualizarEndereco.ok) {
-      Alert.alert('Erro', 'Usuário atualizado, mas erro ao atualizar endereço');
+      Alert.alert('Erro', 'Erro ao atualizar endereço');
       return;
     }
 
