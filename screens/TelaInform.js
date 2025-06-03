@@ -34,13 +34,7 @@ export default function TelaDicas() {
           <Image source={require('../assets/deslizamento2.jpeg')} style={styles.cardImage} />
         </View>
 
-        <View style={styles.cardRow}>
-          <Image source={require('../assets/defesa_civil.png')} style={styles.cardImage} />
-          <Text style={styles.text}>
-            🚨 <Text style={styles.bold}>Durante o risco:</Text>{'\n'}
-            Avise vizinhos, saia do local e contate a Defesa Civil (199) ou Bombeiros (193). Não volte sem liberação oficial.
-          </Text>
-        </View>
+        
 
         <View style={styles.card}>
           <Text style={styles.text}>

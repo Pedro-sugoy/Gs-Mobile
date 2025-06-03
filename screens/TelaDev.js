@@ -36,7 +36,7 @@ export default function TelaDevs() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#dddbd9',

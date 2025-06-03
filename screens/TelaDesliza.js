@@ -87,13 +87,37 @@ export default function TelaDesliza({ usuarioId = 1, enderecoId = 1 }) {
     };
 
     const alerta = calcularAlertaLocal(dados);
-
-
     setLoading(false);
     setResultado(alerta.nivel);
 
+    let emoji = '';
+    let nivelTexto = '';
+
+    switch (alerta.nivel) {
+      case 'MUITO_BAIXO':
+        emoji = '🟢';
+        nivelTexto = `${emoji} MUITO BAIXO`;
+        break;
+      case 'BAIXO':
+        emoji = '🟡';
+        nivelTexto = `${emoji} BAIXO`;
+        break;
+      case 'MODERADO':
+        emoji = '🟠';
+        nivelTexto = `${emoji} MODERADO`;
+        break;
+      case 'ALTO':
+        emoji = '🔴 ';
+        nivelTexto = `${emoji} ALTO`;
+        break;
+      case 'CRITICO':
+        emoji = '🚨';
+        nivelTexto = `${emoji} CRÍTICO`;
+        break;
+    }
+
     Alert.alert(
-      `Nível: ${alerta.nivel}`,
+      `Nível: ${nivelTexto}`,
       `Descrição: ${alerta.descricao}\nProbabilidade: ${alerta.probabilidade}%`
     );
   };

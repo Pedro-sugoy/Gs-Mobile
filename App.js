@@ -9,9 +9,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import TelaHome from './screens/TelaHome';
 import TelaDevs from './screens/TelaDev';
 import TelaInform from './screens/TelaInform';
-import TelaLogin from './screens/TelaLogin';
 import TelaCadas from './screens/TelaCadas';
 import TelaDesliza from './screens/TelaDesliza';
+import TelaContatos from './screens/TelaContatos';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -30,8 +30,9 @@ function DrawerRoutes() {
     >
       <Drawer.Screen name="Home" component={TelaHome} />
       <Drawer.Screen name="Desenvolvedores" component={TelaDevs} />
+      <Drawer.Screen name="Contatos" component={TelaContatos} />
       <Drawer.Screen name="Informação" component={TelaInform} />
-      <Drawer.Screen name="Login" component={TelaLogin} />
+      <Drawer.Screen name="Cadastro" component={TelaCadas} />
       <Drawer.Screen name="Calculo de deslizamento" component={TelaDesliza} />
     </Drawer.Navigator>
   );
@@ -42,7 +43,6 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Drawer" component={DrawerRoutes} />
-        <Stack.Screen name="TelaCadas" component={TelaCadas} />
       </Stack.Navigator>
     </NavigationContainer>
   );
