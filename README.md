@@ -9,6 +9,8 @@
 
 *Visual Studio Code: 
 
+![Captura de tela 2025-05-31 123611](https://github.com/user-attachments/assets/0fb02919-d39c-4938-8f68-684fda1d6e29)
+
 =2- Após clonar o projeto, abra o cmd e entre na pasta do projeto e baixe as dependencias dele usando o comando "npm install"
 
 ![install](https://github.com/user-attachments/assets/baa8ced6-c076-4f55-a37a-75a00d435fae)
