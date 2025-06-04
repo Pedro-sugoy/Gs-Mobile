@@ -91,6 +91,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 10,
+    borderWidth: 1,
+    borderColor:'green'
   },
   text: {
     fontSize: 17,
