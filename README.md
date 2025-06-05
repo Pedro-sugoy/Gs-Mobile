@@ -1,3 +1,9 @@
+Nome: Pedro Manzo Yokoo/ rm:556115
+
+Nome: Fernando Fernandes Prado/ rm:557982
+
+Nome: Guilherme Camasmie Laiber de Jesus/ rm:554894
+
 *COMO RODAR O PROGRAMA LOCALMENTE
 
 =1- Clone o repositorio usando o "Git Bash Here", "Visual Studio Code" ou baixe o zip do projeto
