@@ -4,6 +4,21 @@ Nome: Fernando Fernandes Prado/ rm:557982
 
 Nome: Guilherme Camasmie Laiber de Jesus/ rm:554894
 
+Link Video
+https://youtu.be/zONKp5cQ0Zo
+
+Descrição da solução:
+
+Nosso público alvo são pessoas que moram em áreas com a possibilidade de deslizamento, principalmente moradia perto de morros. 
+
+Nosso objetivo não é necessariamente resolver os deslizamentos, já que muitas coisas estão em fator, e sim calcular a probabilidade de riscos para esses moradores e tentar evitar acidentes mais graves dando a eles avisos sobre a probabilidade, o nível do risco e uma descrição dele. 
+
+Para não ficar apenas no aviso, vamos deixar no APP dicas de como lidar com o deslizamento, o que é, o que causa e alguns números especializados que podem ser chamados para analisar a situação da área. 
+
+Para ter uma ideia melhor da área do usuário, vamos pedir para cadastrar o endereço da residência dele.
+
+###############################################
+
 *COMO RODAR O PROGRAMA LOCALMENTE
 
 =1- Clone o repositorio usando o "Git Bash Here", "Visual Studio Code" ou baixe o zip do projeto
