@@ -96,6 +96,8 @@ const styles = StyleSheet.create({
     elevation: 4,
     width: '100%',
     maxWidth: 320,
+    borderWidth: 1,
+    borderColor:'green'
   },
   cardRow: {
     flexDirection: 'row',
