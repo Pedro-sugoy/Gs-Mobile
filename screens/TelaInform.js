@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 80,
     height: 80,
-    borderRadius: 8,
+    borderRadius: 8
   },
   text: {
     fontSize: 17,
